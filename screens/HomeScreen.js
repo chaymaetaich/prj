@@ -10,6 +10,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import User from '../components/User';
 import { API_URL } from '../constants';
+import { ScrollView } from 'react-native';
 const HomeScreen = () => {
   const navigation = useNavigation();
   const {userId, setUserId} = useContext(UserType);
@@ -80,11 +81,14 @@ const HomeScreen = () => {
             Contact {myRole == 'doctor' ? 'Patiens' : 'Doctors'}
           </Text>
           <View style={{marginTop:10,paddingHorizontal:5}}>
+            <ScrollView >
+
             {users.map(
               (item, index) =>
-                item.role != myRole &&
-                item._id != myData._id && <User key={index} item={item} email={myData.email} />,
-            )}
+              item.role != myRole &&
+              item._id != myData._id && <User key={index} item={item} email={myData.email} />,
+              )}
+              </ScrollView>
           </View>
         </View>
       </View>

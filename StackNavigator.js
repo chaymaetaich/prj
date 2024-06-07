@@ -26,16 +26,16 @@ const StackNavigator = () => {
   const Stack = createNativeStackNavigator();
   return (
     <NavigationContainer>
-      <Stack.Navigator>
-        {token ? (
+      <Stack.Navigator initialRouteName={token?'Home':'Welcome'}>
+        {/* {token ? (
           <>
             <Stack.Screen name="Home" component={HomeScreen} />
-            <Stack.Screen name="Chat" component={ChatScreen} />
           </>
         ) : (
-            <>
+          <> */}
+          <Stack.Screen name="Chat" component={ChatScreen} options={{header:()=>{}}} />
             <Stack.Screen
-              name="welcome"
+              name="Welcome"
               component={Welcome}
               options={{headerShown: false}}
             />
@@ -50,8 +50,8 @@ const StackNavigator = () => {
               options={{headerShown: false}}
             />
             <Stack.Screen name="Home" component={HomeScreen} />
-          </>
-        )}
+          {/* </>
+        )} */}
       </Stack.Navigator>
     </NavigationContainer>
   );

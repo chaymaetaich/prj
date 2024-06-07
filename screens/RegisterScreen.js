@@ -11,6 +11,7 @@ import {
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import axios from 'axios';
+import { API_URL } from '../constants';
 
 const RegisterScreen = () => {
   const [email, setEmail] = useState('');
@@ -18,12 +19,12 @@ const RegisterScreen = () => {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [role, setRole] = useState('');
-  const [nameError, setNameError] = useState('');
-  const [emailError, setEmailError] = useState('');
-  const [passwordError, setPasswordError] = useState('');
-  const [confirmPasswordError, setConfirmPasswordError] = useState('');
+  const [nameError, setNameError] = useState(false);
+  const [emailError, setEmailError] = useState(false);
+  const [passwordError, setPasswordError] = useState(false);
+  const [confirmPasswordError, setConfirmPasswordError] = useState(false);
   const navigation = useNavigation();
-
+ 
   const validateName = () => {
     if (!name || name.length < 3) {
       setNameError('Name must be at least 3 characters long');
@@ -61,9 +62,8 @@ const RegisterScreen = () => {
     validateEmail();
     validatePassword();
     validateConfirmPassword();
-
     // Proceed with registration if all validations pass
-    if (!nameError && !emailError && !passwordError && !confirmPasswordError) {
+    if (!nameError && !emailError && !passwordError && !confirmPasswordError && email && password && name) {
       const user = {
         name: name,
         email: email,
@@ -72,7 +72,7 @@ const RegisterScreen = () => {
       };
 
       axios
-        .post('http://192.168.1.7:8000/register', user)
+        .post(`${API_URL}/register`, user)
         .then(response => {
           console.log(response);
           Alert.alert(
@@ -95,7 +95,7 @@ const RegisterScreen = () => {
   };
 
   return (
-    <View style={{ flex: 1, backgroundColor: 'white', padding: 10 }}>
+    <View style={{ flex: 1, backgroundColor: 'white', padding: 10,alignItems:"center",paddingTop:20 }}>
       <KeyboardAvoidingView>
         <View
           style={{
@@ -251,7 +251,10 @@ const styles = StyleSheet.create({
     borderBottomColor: 'gray',
     borderBottomWidth: 1,
     marginVertical: 10,
+    paddingTop:10,
     width: 300,
+    color:'#212121',
+    fontSize:16
   },
   error: {
     color: 'red',

@@ -7,12 +7,16 @@ import {
   FlatList,
   StyleSheet,
   Platform,
+  TouchableOpacity,
+  Image,
 } from 'react-native';
 import io from 'socket.io-client';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import { useNavigation } from '@react-navigation/native';
 export default function ChatScreen({route}) {
   const [message, setMessage] = useState('');
   const [messages, setMessages] = useState([]);
+  const navigation = useNavigation()
   const params = route?.params?.item;
   const email = params.email;
   const recipientEmail = route?.params?.email;
@@ -56,7 +60,10 @@ export default function ChatScreen({route}) {
           padding:16,
           paddingTop:40
         }}>
-        <Ionicons name="arrow-back" size={25} />
+          <TouchableOpacity onPress={()=>navigation.goBack()}>
+            <Image source={require('../assets/back.jpg')} style={{height:20,width:20}}/>
+          </TouchableOpacity>
+        {/* <Ionicons name="arrow-back" size={25} /> */}
         <View
           style={{
             backgroundColor: '#d48677',
@@ -89,6 +96,7 @@ export default function ChatScreen({route}) {
             <Text style={styles.message}>{item.timestamp}</Text>
           </View>
         )}
+        style={{paddingHorizontal:16}}
         keyExtractor={(item, index) => index.toString()}
       />
       <View style={styles.inputContainer}>
@@ -109,6 +117,8 @@ const styles = StyleSheet.create({
     flex: 1,
     // padding: 16,
     paddingBottom: 30,
+    backgroundColor:"#eee",
+   
   },
   title: {
     fontSize: 20,
